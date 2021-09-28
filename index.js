@@ -3,7 +3,6 @@ const morgan = require('morgan');
 
 const app = express();
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
 
 // Logging middleware
 app.use(morgan('common'));
@@ -13,7 +12,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-app.use(methodOverride());
 
 let topMovies = [
   {
