@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 let topMovies = [
   {
-    id: '1',
+    movieId: '1',
     title: 'Men in Black',
     actors: 'Tommy Lee Jones and Will Smith',
     director: 'Barry Sonnenfeld',
@@ -28,7 +28,7 @@ let topMovies = [
     }
   },
   {
-    id: '2',
+    movieId: '2',
     title: 'Kingsman - The secret circle revealed',
     actors: 'Geoff Bell and Sofia Boutella',
     director: 'Matthew Vaugn',
@@ -40,7 +40,7 @@ let topMovies = [
     }
   },
   {
-    id: '3',
+    movieId: '3',
     title: 'Kill Bill Vol. 1',
     actors: 'Uma Thurman and David Carradine',
     director: 'Quentin Tarantino',
@@ -52,7 +52,7 @@ let topMovies = [
     }
   },
   {
-    id: '4',
+    movieId: '4',
     title: 'The big Blue',
     actors: 'Jean_Marc Barr, Jean Reno',
     director: 'Luc Besson',
@@ -63,7 +63,7 @@ let topMovies = [
     }
   },
   {
-    id: '5',
+    movieId: '5',
     title: 'Mission: Impossible',
     actors: 'Tom Cruise and Voigt',
     director: 'Brian de Palma',
@@ -74,7 +74,7 @@ let topMovies = [
     }
   },
   {
-    id: '6',
+    movieId: '6',
     title: 'Top Gun',
     actors: 'Tom Cruise and Val Kilmer',
     director: 'Tony Scott',
@@ -84,7 +84,7 @@ let topMovies = [
     }
   },
   {
-    id: '7',
+    movieId: '7',
     title: 'Lock Stock and 2 smoking Barrels',
     actors: 'Jason Flemyng and Dexter Fletcher',
     director: 'Guy Ritchie',
@@ -95,7 +95,7 @@ let topMovies = [
     }
   },
   {
-    id: '8',
+    movieId: '8',
     title: 'RED',
     actors: 'Bruce Willis and Helen Mirren',
     director: 'Robert Schwentle',
@@ -107,7 +107,7 @@ let topMovies = [
     }
   },
   {
-    id: '9',
+    movieId: '9',
     title: 'Predator',
     actors: 'Arnold Schwarzenegger and Carl Weathers',
     director: 'John McTiernan',
@@ -119,7 +119,7 @@ let topMovies = [
     }
   },
   {
-    id: '10',
+    movieId: '10',
     title: 'The Gentlemen',
     actors: 'Matthew McConaughey and Charlie Hunnam',
     director: 'Guy Ritchie',
@@ -134,7 +134,7 @@ let topMovies = [
 // Users data
 let users = [
   {
-      id: 1,
+      userId: 1,
       username: "jessd",
       password: "password1",
       email: "jessyd@email.com",
@@ -143,7 +143,7 @@ let users = [
       ]
   },
   {
-      id: 2,
+      userId: 2,
       username: "benc",
       password: "password2",
       email: "benc@emailo.com",
@@ -152,7 +152,7 @@ let users = [
       ]
   },
   {
-      id: 3,
+      userId: 3,
       username: "lisad",
       password: "password3",
       email: "lisad@email.com",
@@ -162,6 +162,19 @@ let users = [
   }
 ];
 
+let genres = [
+  {
+    genreId: "",
+    Name: "Comedy",
+    Description: "The comedy genre is made up of a series of funny or comical events or scenes that are intended to make the viewer laugh. Movies in the comedy genre can also be about a particular quirky character that is funny or amusing. The comedy genre is versatile like drama and romance, as it can be crossed or meshed with almost every other genre."
+  },
+  {
+    genreId: "",
+    Name: "Adventure",
+    Description: "Adventure fiction is a genre of fiction that usually presents danger, or gives the reader a sense of excitement. Adventure has been a common theme since the earliest days of written fiction and variations have kept the genre alive. Adventure stories almost always move quickly, and the pace of the plot is at least as important as characterization, setting and other elements of a creative work."
+  }
+]
+
 
 
 // GET homepage
@@ -169,7 +182,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to myFlix, the best movie app on the market!');
 });
 
-// GET list of displayed movies
+// GET list of displayed (all) movies
 app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
@@ -181,9 +194,9 @@ app.get('/movies/:title', (req, res) => { // movies/:id = /movies_detail
   }));
 });
 
-// GET data about movie genre by title???????????????????????????????????????
-app.get('/movies/:genre', (req, res) => { // /movies/
-  res.json(topMovies.find((movie) => {
+// GET data about genre by genre name???????????????????????????????????????
+app.get('/genres/:genreId/:name', (req, res) => { // /movies/
+  res.json(genres.find((genre) => {
     return movie.genre === req.params.genre
   }));
 })
