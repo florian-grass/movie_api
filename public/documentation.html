@@ -3,7 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>API instructions</title>
-
+  <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Documentation</h1>
@@ -11,6 +21,118 @@
     The web application will provide users with access to informnation about different movies, directors and genres. Users will be able to sign up, update their personal info and create a list of their favorite movies.
   </p>
 
-
+  <table>
+    <thead>
+      <tr>
+        <th>Request</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request body data format</th>
+        <th>Respond body data format</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Return a list of ALL movies to the user</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data about all the movies</td>
+      </tr>
+      <tr>
+        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+        <td>/movies/[Name]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data about a single movie, containing description, genre, director, image URL,<br />
+          {<br />
+            &nbsp &nbsp id: "title", <br />
+            &nbsp &nbsp genre: { <br />
+                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Thriller,<br />
+                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Comedy,<br />
+                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Action,<br />
+                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Drama,<br />
+                  &nbsp &nbsp }<br />
+            &nbsp &nbsp director: "name",<br />
+            &nbsp &nbsp image URL: "link to image URL"<br />
+          }
+        </td>
+      </tr>
+      <tr>
+        <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+        <td>/movies/[GENRE]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data about a movie genre<br />
+          {<br />
+            &nbsp &nbsp name: "thriller",<br />
+            &nbsp &nbsp description: "link top text"<br />
+          }
+        </td>
+      </tr>
+      <tr>
+        <td>Return data about a director (bio, birth year, death year) by name</td>
+        <td>/movies/[DIRECTOR]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data about a movie director<br />
+          {<br />
+            &nbsp &nbsp name: "Matthew Vaughn",<br />
+            &nbsp &nbsp bio: "link to text",<br />
+            &nbsp &nbsp birthyear: 1971,<br />
+            &nbsp &nbsp death year: "still alive"<br />
+          }
+        </td>
+      </tr>
+      <tr>
+        <td>Allow new users to register</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>A JSON object holding data about a new user to add, structured like<br />
+          {<br />
+            &nbsp &nbsp name: “Paula Gomez”,<br />
+            &nbsp &nbsp username: “paula”,<br />
+            &nbsp &nbsp email: “pauline@yahoo.com”<br />
+          }
+        </td>
+        <td>A JSON object holding data about a new user<br />
+          {<br />
+            &nbsp &nbsp id: 23,<br />
+            &nbsp &nbsp name: “Paula Gomez”,<br />
+            &nbsp &nbsp username: “paula”,<br />
+            &nbsp &nbsp email: “pauline@yahoo.com”<br />
+          }
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to update their user info (username)</td>
+        <td>/users</td>
+        <td>PUT</td>
+        <td>NONE</td>
+        <td>A text message indicating that the user has their user info.</td>
+      </tr>
+      <tr>
+        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
+        <td>/users/[FAVS]</td>
+        <td>POST</td>
+        <td>NONE</td>
+        <td>A text message indicating that the user has added a new movie to the favorite list</td>
+      </tr>
+      <tr>
+        <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
+        <td>/users/[FAVS]</td>
+        <td>DELETE</td>
+        <td>NONE</td>
+        <td>A text message indicating that the user has removed a movie from the favorites list</td>
+      </tr>
+      <tr>
+        <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
+        <td>/users</td>
+        <td>DELETE</td>
+        <td>NONE</td>
+        <td>A text message indicating that the user has deregistered from myFlix</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
