@@ -28,37 +28,7 @@
   <p>
     The web application will provide users with access to informnation about different movies, directors and genres. Users will be able to sign up, update their personal info and create a list of their favorite movies.
   </p>
-  <br>
-  <h2>Entities Table</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>ENTITY</th>
-        <th>ATTRIBUTES</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Movies</td>
-        <td>ID, Title, Description, Genre, Director, URL to image, Featured (Y/N)</td>
-      </tr>
-      <tr>
-        <td>Director</td>
-        <td>ID, Name, Bio, Birth year, Death year</td>
-      </tr>
-      <tr>
-        <td>Genre</td>
-        <td>ID, Name, Description</td>
-      </tr>
-      <tr>
-        <td>Users</td>
-        <td>ID, Username, Password, Email, Birthday, Favorite movies</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br>
-  <br>
+   
   <br>
 
   <table>
@@ -86,7 +56,8 @@
         <td>none</td>
         <td>A JSON object holding data about a single movie, containing description, genre, director, image URL,<br />
           {<br />
-            &nbsp &nbsp id: "title", <br />
+            &nbsp &nbsp id: "1", <br />
+            &nbsp &nbsp name: "title", <br />
             &nbsp &nbsp genre: { <br />
                   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Thriller,<br />
                   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Comedy,<br />
@@ -178,6 +149,37 @@
   <br>
   <br>
   <br>
+  <h2>Entities Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ENTITY</th>
+        <th>ATTRIBUTES</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Movies</td>
+        <td>ID, Title, Description, Genre, Director, URL to image, Featured (Y/N)</td>
+      </tr>
+      <tr>
+        <td>Director</td>
+        <td>ID, Name, Bio, Birth year, Death year</td>
+      </tr>
+      <tr>
+        <td>Genre</td>
+        <td>ID, Name, Description</td>
+      </tr>
+      <tr>
+        <td>Users</td>
+        <td>ID, Username, Password, Email, Birthday, Favorite movies</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <br>
+  <br>
 
   <h2>Users Table</h2>
   <table>
@@ -251,6 +253,87 @@
        <td>Robert Ralph Minkoff is an American filmmaker. He is known for directing the double Academy Award–winning animated feature The Lion King, along with directing Stuart Little.</td>
        <td>1962</td>
        <td>--</td>
+     </tr>
+   </tbody>
+  </table>
+  
+
+  <br>
+  <br>
+  <br>
+
+  <h2>Movie Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <td>MOVIEID</td>
+        <td>TITLE</td>
+        <td>DESCRIPTION</td>
+        <td>GENREID</td>
+        <td>DIRECTORID</td>
+        <td>IMAGEPATH</td>
+        <td>FEATURED></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Silence of the Lambs</td>
+        <td>“A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.”</td>
+        <td>1</td>
+        <td>1</td>
+        <td>silenceofthelambs.png</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>The Lion King</td>
+        <td>“This Disney animated feature follows the adventures of the young lion Simba.”</td>
+        <td>2</td>
+        <td>3</td>
+        <td>thelionking.png</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Stuart Little</td>
+        <td>“When the Littles go to an orphanage to adopt a new family member, a charming young mouse named Stuart is chosen.”</td>
+        <td>3</td>
+        <td>3</td>
+        <td>stuartlittle.png</td>
+        <td>False</td>
+      </tr>
+    </tbody>
+   </table>  
+
+  <br>
+  <br>
+  <br>
+
+  <h2>Genre Table</h2>
+  <table>
+   <thead>
+     <tr>
+       <td>GENREID</td>
+       <td>NAME</td>
+       <td>DESCRIPTION</td>
+     </tr>
+   </thead>
+   <tbody>
+     <tr>
+       <td>1</td>
+       <td>Thriller</td>
+       <td>Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience.</td>
+     </tr>
+     <tr>
+       <td>2</td>
+       <td>Animated</td>
+       <td>Animation is a method in which pictures are manipulated to appear as moving images. In traditional animation, images are drawn or painted by hand on transparent celluloid sheets to be photographed and exhibited on film.</td>
+       </tr>
+       <tr>
+       <td>3</td>
+       <td>Comedy</td>
+       <td>Comedy is a genre of film in which the main emphasis is on humor. These films are designed to make the audience laugh through amusement and most often work by exaggerating characteristics for humorous effect.</td>
      </tr>
    </tbody>
   </table>
