@@ -16,39 +16,39 @@ app.use(bodyParser.json());
 
 let topMovies = [
   {
-    movieId: '1',
-    title: 'Men in Black',
-    actors: 'Tommy Lee Jones and Will Smith',
-    director: 'Barry Sonnenfeld',
-    genre: {
-      name:"action",
-      name:"adventure",
-      name:"comedy",
-      name:"sci-fi"
+    "id": 1,
+    "title": "Men in Black",
+    "actors": "Tommy Lee Jones and Will Smith",
+    "director": "Barry Sonnenfeld",
+    "genre": {
+      "name":"action",
+      "name":"adventure",
+      "name":"comedy",
+      "name":"sci-fi"
     }
   },
   {
-    movieId: '2',
-    title: 'Kingsman - The secret circle revealed',
-    actors: 'Geoff Bell and Sofia Boutella',
-    director: 'Matthew Vaugn',
-    genre: {
-      name:"action",
-      name:"adventure",
-      name:"comedy",
-      name:"thriller"
+    "id": 2,
+    "title": "Kingsman - The secret circle revealed",
+    "actors": "Geoff Bell and Sofia Boutella",
+    "director": "Matthew Vaugn",
+    "genre": {
+      "name":"action",
+      "name":"adventure",
+      "name":"comedy",
+      "name":"thriller"
     }
   },
   {
-    movieId: '3',
-    title: 'Kill Bill Vol. 1',
-    actors: 'Uma Thurman and David Carradine',
-    director: 'Quentin Tarantino',
-    genre: {
-      name:"action",
-      name:"crime",
-      name:"drama",
-      name:"thriller"
+    "id": 3,
+    "title": "Kill Bill Vol. 1",
+    "actors": "Uma Thurman and David Carradine",
+    "director": "Quentin Tarantino",
+    "genre": {
+      "name":"action",
+      "name":"crime",
+      "name":"drama",
+      "name":"thriller"
     }
   },
   {
@@ -164,12 +164,12 @@ let users = [
 
 let genres = [
   {
-    genreId: "",
+    genreId: "1",
     Name: "Comedy",
     Description: "The comedy genre is made up of a series of funny or comical events or scenes that are intended to make the viewer laugh. Movies in the comedy genre can also be about a particular quirky character that is funny or amusing. The comedy genre is versatile like drama and romance, as it can be crossed or meshed with almost every other genre."
   },
   {
-    genreId: "",
+    genreId: "2",
     Name: "Adventure",
     Description: "Adventure fiction is a genre of fiction that usually presents danger, or gives the reader a sense of excitement. Adventure has been a common theme since the earliest days of written fiction and variations have kept the genre alive. Adventure stories almost always move quickly, and the pace of the plot is at least as important as characterization, setting and other elements of a creative work."
   }
@@ -194,26 +194,22 @@ app.get('/movies/:title', (req, res) => { // movies/:id = /movies_detail
   }));
 });
 
+// GET movie by ID
+app.get('/movies/:id', (req, res) => { // movies/:id = /movies_detail
+  const id = req.params.id * 1
+  res.json(topMovies.find((movie) => {
+    return movie.id === req.params.id
+  }));
+});
+
 // GET data about genre by genre name???????????????????????????????????????
 app.get('/genres/:genreId/:name', (req, res) => { // /movies/
-  res.json(genres.find((genre) => {
-    return movie.genre === req.params.genre
-  }));
-})
+  res.send('The different genres are Thriller, Comedy, Action, Adventure, Drama, Sport and Sci-Fi.')
+});
 
 // POST add movie to list of favorites
 app.post('/users/:id/:favoriteMovies', (req, res) => {
   res.send('You have added a new movie to your favorites list.')
-//   let newFavMovie = req.body;
-//
-//   if (!newFavMovie.title) {
-//     const message = 'Missing name in request body.';
-//     res.status(400).send(message);
-//   } else {
-//     newFavMovie.id = uuid.v4();
-//     favMovies.push(newFavMovie);
-//     res.status(201).send('A new movie has been added to your favorites list.');
-//   }
 });
 
 // DELETE a movie from the topMovies list by ID
@@ -230,28 +226,7 @@ app.delete('/movies/:id', (req, res) => {
   }
 });
 
-// DELETE a movie from the favorites list by ID
-app.delete('/users/:id/favorites/:movieToRemoveId', (req, res) => {
-  let movie = topMovies.find((movie) => {
-    return movie.id === req.params.id
-  });
-
-  if (movie) {
-    topMovies = topMovies.filter((obj) => {
-      return obj.id !== req.params.id
-    });
-    res.status(201).send('The movie ' + req.params.id + ' has been removed from your favorites list.');
-  }
-});
-
-// GET data about director ???????????????????????????????????
-app.get('/movies/:director', (req, res) => {
-  res.json(topMovies.find((movie) => {
-    return movie.director === req.params.director
-  }));
-});
-
-// POST new user registration
+// OK - POST new user registration
 app.post('/users/register', (req, res) => {
   let newUser = req.body;
   if (!newUser.name || !newUser.email) {
@@ -264,38 +239,13 @@ app.post('/users/register', (req, res) => {
   }
 });
 
-// PUT update user info - '/users/[id]/[userInfoUpdate]/[newValue]'
-app.put('/users/:id/:username', (req, res) => {
-  res.send('Your userprofile has been updated.')
-});
-//   let user = users.find((user) => {
-//     return user.name === req.params.name
-//   });
-//
-//   if (user) {
-//     user.username[req.params.class] = parseInt(req.params.username),  // ?????????HERE IS SOMETHING WRONG !!!!!!!!!!!!!!!!!!!!!!!!!!
-//     res.status(201).send('User ' + req.params.name + ' username was updated to ' + req.params.username + '.' );
-//   } else {
-//     res.status(404).send('A user with teh name ' + req.params.name + ' was not found.');
-//   }
-// });
 
 
 // DELETE - de-register a user - '/users/[id]/[unregister]'
 app.delete('/users/:id', (req, res) => {
   res.send('You have been successfully removed from myFlix. We are sorry to see you go!')
 });
-//   let user = users.find((user) => {
-//     return user.id === req.params.id
-//   });
-//
-//   if (user) {
-//     users = users.filter((obj) => {
-//       return obj.id !== req.params.id
-//     })
-//     res.status(201).send('You, ' + req.params.id + ', have successfully closed your account with myFlix. We are sorry to see you leave!.');
-//   }
-// });
+
 
 // sending of static files
 app.use(express.static('public'));
