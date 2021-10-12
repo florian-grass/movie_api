@@ -1,132 +1,135 @@
+
 const express = require('express');
-const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+
+// Middleware
+const morgan = require('morgan'); 
+
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
-const bodyParser = require('body-parser'),
-  uuid = require('uuid');
-
-// Logging middleware
-app.use(morgan('common'));
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(bodyParser.json());
+
+// Logging middleware
+app.use(morgan('common'));
+
+
+
 
 let topMovies = [
+  // {
+  //   id: 10,
+  //   Title: "Men in Black",
+  //   Director: {
+  //     Name: "Barry Sonnenfeld",
+  //     Bio: "",
+  //     Birthyear: "",
+  //     Deathyear: ""
+  //   }
+  //   Genre: { 
+  //     Name:"Comedy"
+  //   }
+  // },
+  // {
+  //   id: 11,
+  //   Title: "Sherlock Holmes: A Game of Shadows",
+  //   Director: {
+  //     Name: "Guy Ritchie",
+  //     Bio: "",
+  //     Birthyear: "",
+  //     Deathyear: ""
+  //   }
+  //   Genre: {
+  //     Name:"Thriller"
+  //   }
+  // },
   {
-    "id": 1,
-    "title": "Men in Black",
-    "actors": "Tommy Lee Jones and Will Smith",
-    "director": "Barry Sonnenfeld",
-    "genre": {
-      "name":"action",
-      "name":"adventure",
-      "name":"comedy",
-      "name":"sci-fi"
+    movieId: '12',
+    Title: "Kill Bill Vol. 1",
+    Actors: "Uma Thurman and David Carradine",
+    Director: {
+      Name: "Quentin Tarantino",
+      Bio: "",
+      Birthyear: "",
+      Deathyear: ""
+    },
+    Genre: {
+      Name:"Action"
     }
   },
   {
-    "id": 2,
-    "title": "Kingsman - The secret circle revealed",
-    "actors": "Geoff Bell and Sofia Boutella",
-    "director": "Matthew Vaugn",
-    "genre": {
-      "name":"action",
-      "name":"adventure",
-      "name":"comedy",
-      "name":"thriller"
+    movieId: '13',
+    Title: 'Pulp Fiction',
+    Director: 'Quentin Tarantino',
+    Genre: {
+      Name:"Action",
     }
   },
   {
-    "id": 3,
-    "title": "Kill Bill Vol. 1",
-    "actors": "Uma Thurman and David Carradine",
-    "director": "Quentin Tarantino",
-    "genre": {
-      "name":"action",
-      "name":"crime",
-      "name":"drama",
-      "name":"thriller"
-    }
-  },
-  {
-    movieId: '4',
-    title: 'The big Blue',
-    actors: 'Jean_Marc Barr, Jean Reno',
-    director: 'Luc Besson',
-    genre: {
-      name:"adventure",
-      name:"drama",
-      name:"sport"
+    movieId: '14',
+    Title: 'Mission: Impossible',
+    Actors: 'Tom Cruise and Voigt',
+    Director: 'Brian de Palma',
+    Genre: {
+      Name:"Thriller"
     }
   },
   {
     movieId: '5',
-    title: 'Mission: Impossible',
-    actors: 'Tom Cruise and Voigt',
-    director: 'Brian de Palma',
+    Title: 'Top Gun',
+    actors: 'Tom Cruise and Val Kilmer',
+    director: 'Tony Scott',
     genre: {
-      name:"action",
-      name:"adventure",
-      name:"thriller"
+      name:"Action"
     }
   },
   {
     movieId: '6',
-    title: 'Top Gun',
-    actors: 'Tom Cruise and Val Kilmer',
-    director: 'Tony Scott',
-    genre: {
-      name:"action",
-      name:"drama"
-    }
-  },
-  {
-    movieId: '7',
     title: 'Lock Stock and 2 smoking Barrels',
     actors: 'Jason Flemyng and Dexter Fletcher',
     director: 'Guy Ritchie',
     genre: {
-      name:"action",
-      name:"comedy",
-      name:"crime"
+      name:"Comedy"
     }
   },
   {
-    movieId: '8',
+    movieId: '7',
     title: 'RED',
     actors: 'Bruce Willis and Helen Mirren',
     director: 'Robert Schwentle',
     genre: {
-      name:"action",
-      name:"comedy",
-      name:"crime",
-      name:"thriller"
+      name:"Action"
     }
   },
   {
-    movieId: '9',
+    movieId: '8',
     title: 'Predator',
     actors: 'Arnold Schwarzenegger and Carl Weathers',
     director: 'John McTiernan',
     genre: {
-      name:"action",
-      name:"adventureadventure",
-      name:"scifi",
-      name:"thriller"
+      name:"Action"
     }
   },
   {
-    movieId: '10',
+    movieId: '9',
     title: 'The Gentlemen',
     actors: 'Matthew McConaughey and Charlie Hunnam',
     director: 'Guy Ritchie',
     genre: {
-      name:"action",
-      name:"thriller",
-      name:"crime"
+      name:"Thriller"
     }
   }
 ];
@@ -177,73 +180,201 @@ let genres = [
 
 
 
-// GET homepage
+// OK - GET homepage
 app.get('/', (req, res) => {
   res.send('Welcome to myFlix, the best movie app on the market!');
 });
 
-// GET list of displayed (all) movies
+
+// OK -GET list of displayed (all) movies
 app.get('/movies', (req, res) => {
-  res.json(topMovies);
-});
-
-// Get data about a single movie by title/name
-app.get('/movies/:title', (req, res) => { // movies/:id = /movies_detail
-  res.json(topMovies.find((movie) => {
-    return movie.title === req.params.title
-  }));
-});
-
-// GET movie by ID
-app.get('/movies/:id', (req, res) => { // movies/:id = /movies_detail
-  const id = req.params.id * 1
-  res.json(topMovies.find((movie) => {
-    return movie.id === req.params.id
-  }));
-});
-
-// GET data about genre by genre name???????????????????????????????????????
-app.get('/genres/:genreId/:name', (req, res) => { // /movies/
-  res.send('The different genres are Thriller, Comedy, Action, Adventure, Drama, Sport and Sci-Fi.')
-});
-
-// POST add movie to list of favorites
-app.post('/users/:id/:favoriteMovies', (req, res) => {
-  res.send('You have added a new movie to your favorites list.')
-});
-
-// DELETE a movie from the topMovies list by ID
-app.delete('/movies/:id', (req, res) => {
-  let movie = topMovies.find((movie) => {
-    return movie.id === req.params.id
+  Movies.find()
+  .then((movies) => {
+    res.status(201).json(movies);
+  })
+  .catch((err) => {
+    console.error(error);
+    res.status(500).send('Error ' + err);
   });
+});
 
-  if (movie) {
-    topMovies = topMovies.filter((obj) => {
-      return obj.id !== req.params.id
+
+// OK - Get data about a single movie by title/name
+// URL: /movies/The%20Gentlemen
+app.get('/movies/:Title', (req, res) => { 
+  Movies.findOne({ Title: req.params.Title})
+  .then((movie) => {
+    res.json(movie);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error ' + err);
+  });
+});
+
+
+// OK - GET JSON genre info when looking for a specific genre
+app.get('/genre/:Name', (req, res) => { // /movies/
+  Genres.findOne({ Name: req.params.Name})
+  .then((genre) => {
+    res.json(genre.Description);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error ' + err);
+  });
+});
+
+
+// OK - GET info on Director when looking for a specific Director
+app.get('/director/:Name', (req, res) => { 
+  Directors.findOne({ Name: req.params.Name})
+  .then((director) => {
+    res.json(director);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error ' + err);
+  });
+});
+
+
+// OK - POST add movie to list of favorites - UPDATE
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID }
+    }, 
+    { new: true}, 
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+      }
     });
-    res.status(201).send('The movie ' + req.params.id + ' has been removed from your favorites list.');
-  }
+});
+
+
+
+// OK - DELETE a movie from the topMovies list by ID
+app.delete('/movies/:Title', (req, res) => {
+  Movies.findOneAndRemove({Title: req.params.Title})
+    .then((movie) => {
+      if(!movie) {
+        res.status(400).send(req.params.Title + ' was not found');
+      } else {
+        res.status(200).send(req.params.Title + ' was deleted.');
+      }
+    })      
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error ' + err);
+    });
 });
 
 // OK - POST new user registration
-app.post('/users/register', (req, res) => {
-  let newUser = req.body;
-  if (!newUser.name || !newUser.email) {
-    const message = 'Not all required registration data provided.';
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).send(newUser);
-  }
+app.post('/users', (req, res) => {
+  Users.findOne({Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) => { res.status(201).json(user)  })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+
 });
 
 
+// OK - GET request for all users
+app.get('/users', (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(error);
+      res.status(500).send('Error ' + err);
+    });
+});
 
-// DELETE - de-register a user - '/users/[id]/[unregister]'
-app.delete('/users/:id', (req, res) => {
-  res.send('You have been successfully removed from myFlix. We are sorry to see you go!')
+
+// OK - GET user by username
+app.get('/users/:Username', (req, res) => {
+  Users.findOne({ Username: req.params.Username})
+  .then((user) => {
+    res.json(user);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error ' + err);
+  });
+});
+
+
+// OK - UPDATE a user's info by username
+/* We’ll expect JSON in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
+app.put('/users/:Username', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username },
+  { $set:
+    {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+  // This coming line makes sure that the updated document is returned
+  { new: true },
+  (err, updatedUser) => {
+    if(err) {
+      console.error(err);
+      res.status(500).send('Error ' + err);
+    } else {
+      res.json(updatedUser);
+    }
+  });
+});
+
+
+// OK - DELETE - de-register a user
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndRemove({Username: req.params.Username})
+    .then((user) => {
+      if(!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })      
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error ' + err);
+    });
 });
 
 
