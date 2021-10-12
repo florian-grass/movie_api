@@ -51,13 +51,13 @@
       </tr>
       <tr>
         <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-        <td>/movies/[Name]</td>
+        <td>/movies/[TITLE]</td>
         <td>GET</td>
         <td>none</td>
         <td>A JSON object holding data about a single movie, containing description, genre, director, image URL,<br />
           {<br />
             &nbsp &nbsp id: "1", <br />
-            &nbsp &nbsp name: "title", <br />
+            &nbsp &nbsp title: "name", <br />
             &nbsp &nbsp genre: { <br />
                   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Thriller,<br />
                   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Comedy,<br />
@@ -117,28 +117,28 @@
       </tr>
       <tr>
         <td>Allow users to update their user info (username)</td>
-        <td>/users</td>
-        <td>PUT</td>
+        <td>/users/:id</td>
+        <td>PATCH</td>
         <td>NONE</td>
         <td>A text message indicating that the user has their user info.</td>
       </tr>
       <tr>
         <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
-        <td>/users/[FAVS]</td>
+        <td>/users/:id/[FAVS]</td>
         <td>POST</td>
         <td>NONE</td>
         <td>A text message indicating that the user has added a new movie to the favorite list</td>
       </tr>
       <tr>
         <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
-        <td>/users/[FAVS]</td>
+        <td>/users/:id/[FAVS]</td>
         <td>DELETE</td>
         <td>NONE</td>
         <td>A text message indicating that the user has removed a movie from the favorites list</td>
       </tr>
       <tr>
         <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
-        <td>/users</td>
+        <td>/users/:id</td>
         <td>DELETE</td>
         <td>NONE</td>
         <td>A text message indicating that the user has deregistered from myFlix</td>
