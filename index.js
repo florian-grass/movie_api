@@ -1,10 +1,12 @@
 
 const express = require('express');
+// Middleware
+const morgan = require('morgan');
+
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
 
-// Middleware
-const morgan = require('morgan'); 
+const app = express();
 
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -16,7 +18,7 @@ const Directors = Models.Director;
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true, useUnifiedTopology: true });
 
-const app = express();
+// activating body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -214,7 +216,7 @@ app.get('/movies/:Title', (req, res) => {
 
 
 // OK - GET JSON genre info when looking for a specific genre
-app.get('/genre/:Name', (req, res) => { // /movies/
+app.get('/movies/genre/:Name', (req, res) => { 
   Genres.findOne({ Name: req.params.Name})
   .then((genre) => {
     res.json(genre.Description);
@@ -256,8 +258,8 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 
 
-// OK - DELETE a movie from the topMovies list by ID
-app.delete('/movies/:Title', (req, res) => {
+// OK - DELETE a movie from the users favorite Movies list by ID
+app.delete('/users/:Username/movies/:Title', (req, res) => {
   Movies.findOneAndRemove({Title: req.params.Title})
     .then((movie) => {
       if(!movie) {
