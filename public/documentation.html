@@ -50,48 +50,51 @@
         <td>A JSON object holding data about all the movies</td>
       </tr>
       <tr>
-        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-        <td>/movies/[TITLE]</td>
+        <td>Return data about a single movie by title to the user</td>
+        <td>/movies/:Title <br> movies/The%20Gentlemen</td>
         <td>GET</td>
         <td>none</td>
         <td>A JSON object holding data about a single movie, containing description, genre, director, image URL,<br />
           {<br />
-            &nbsp &nbsp id: "1", <br />
-            &nbsp &nbsp title: "name", <br />
-            &nbsp &nbsp genre: { <br />
-                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Thriller,<br />
-                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Comedy,<br />
-                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Action,<br />
-                  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Drama,<br />
-                  &nbsp &nbsp }<br />
-            &nbsp &nbsp director: "name",<br />
-            &nbsp &nbsp image URL: "link to image URL"<br />
-          }
+            &nbsp "Genre": { <br />
+            &nbsp &nbsp "Name": "Thriller", <br />
+            &nbsp &nbsp "Description": "Thriller film, also known ..."<br />
+            }, <br />
+            <br />
+            &nbsp "Director": {<br />
+            &nbsp &nbsp "Name": "Guy Ritchie"<br />
+            &nbsp &nbsp "Bio": "Guy Ritchie is an english film director ..."<br />
+            &nbsp &nbsp "Birth": "1968"<br />
+            &nbsp &nbsp "Death": ""<br />
+          },<br />
+          <br />
+          &nbsp "Actors": [],<br />
+          &nbsp "id": "615e8711bd5a5fbf42...",<br />
+          &nbsp "Title": "The Gentlemen",<br />
+          &nbsp "Description": "An American expat tries ...",<br />
+          &nbsp "ImagePath": "https://www.imdb.com7title7...",<br />
+          &nbsp "Featured": true<br />
         </td>
       </tr>
       <tr>
         <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-        <td>/movies/[GENRE]</td>
+        <td>/genre/:Name</td>
         <td>GET</td>
         <td>none</td>
         <td>A JSON object holding data about a movie genre<br />
           {<br />
-            &nbsp &nbsp name: "thriller",<br />
-            &nbsp &nbsp description: "link top text"<br />
+            Error message<br />
           }
         </td>
       </tr>
       <tr>
         <td>Return data about a director (bio, birth year, death year) by name</td>
-        <td>/movies/[DIRECTOR]</td>
+        <td>/director/:Name</td>
         <td>GET</td>
         <td>none</td>
         <td>A JSON object holding data about a movie director<br />
           {<br />
-            &nbsp &nbsp name: "Matthew Vaughn",<br />
-            &nbsp &nbsp bio: "link to text",<br />
-            &nbsp &nbsp birthyear: 1971,<br />
-            &nbsp &nbsp death year: "still alive"<br />
+            Error message<br />
           }
         </td>
       </tr>
@@ -101,47 +104,87 @@
         <td>POST</td>
         <td>A JSON object holding data about a new user to add, structured like<br />
           {<br />
-            &nbsp &nbsp name: “Paula Gomez”,<br />
-            &nbsp &nbsp username: “paula”,<br />
-            &nbsp &nbsp email: “pauline@yahoo.com”<br />
+            &nbsp ID: Integer,<br />
+            &nbsp "Username": “Paula Gomez”,<br />
+            &nbsp "Password": “paula”,<br />
+            &nbsp "Email": “pauline@yahoo.com”<br />
+            &nbsp "Birthday": “1953-09-02”<br />
           }
         </td>
         <td>A JSON object holding data about a new user<br />
           {<br />
-            &nbsp &nbsp id: 23,<br />
-            &nbsp &nbsp name: “Paula Gomez”,<br />
-            &nbsp &nbsp username: “paula”,<br />
-            &nbsp &nbsp email: “pauline@yahoo.com”<br />
+            &nbsp "FavoriteMovies": [],<br />
+            &nbsp "ID": "5c491f55...",<br />
+            &nbsp "Username": “Paula Gomez”,<br />
+            &nbsp "Password": “paula”,<br />
+            &nbsp "Email": “pauline@yahoo.com”<br />
+            &nbsp "Birthday": “1953-09-02”<br />
           }
         </td>
       </tr>
       <tr>
-        <td>Allow users to update their user info (username)</td>
-        <td>/users/:id</td>
-        <td>PATCH</td>
-        <td>NONE</td>
-        <td>A text message indicating that the user has their user info.</td>
+        <td>Allow users to update their user info</td>
+        <td>/users/:Username</td>
+        <td>PUT / PATCH</td>
+        <td>Update Userinfo in JSON format<br />
+          { <br />
+          &nbsp Username: String, (required),<br />
+          &nbsp Password: String, (required),<br />
+          &nbsp Email: String, (required)<br />
+          &nbsp Birthday: Date<br />
+          }<br />
+        </td>
+        <td>Updated Userinfo in JSON format<br />
+          { <br />
+          &nbsp "Username": “Paula Gomez”,<br />
+          &nbsp "Password": “paula”,<br />
+          &nbsp "Email": “pauline@yahoo.com”<br />
+          &nbsp "Birthday": “1953-09-02”<br />
+          }<br /></td>
       </tr>
       <tr>
-        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
-        <td>/users/:id/[FAVS]</td>
+        <td>Allow users to add a movie to their list of favorites</td>
+        <td>/users/:Username/movies/:MovieID</td>
         <td>POST</td>
-        <td>NONE</td>
-        <td>A text message indicating that the user has added a new movie to the favorite list</td>
+        <td>/users/jessd/movies/615e9b...</td>
+        <td>
+          {<br />
+            &nbsp "_id": "615eb9462bb8b...",<br />
+            &nbsp "Username": "jessd",<br />
+            &nbsp "Password": "password1",<br />
+            &nbsp "Email": "jessyd@email.com",<br />
+            &nbsp "Birthday": "1988-10-09T00:00:00.000Z",<br />
+            &nbsp "FavoriteMovies": [<br />
+            &nbsp &nbsp "615e8355db5a5fbf42fc4eb8",<br />
+            &nbsp &nbsp "615e9b08db5a5fbf42fc4ebe"<br />
+            &nbsp ]<br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
-        <td>/users/:id/[FAVS]</td>
+        <td>/users/:Username/movies/:MovieID</td>
         <td>DELETE</td>
-        <td>NONE</td>
-        <td>A text message indicating that the user has removed a movie from the favorites list</td>
+        <td>/users/jessd/movies/615e9b...</td>
+        <td>
+          {<br />
+            &nbsp "_id": "615eb9462bb8b...",<br />
+            &nbsp "Username": "jessd",<br />
+            &nbsp "Password": "password1",<br />
+            &nbsp "Email": "jessyd@email.com",<br />
+            &nbsp "Birthday": "1988-10-09T00:00:00.000Z",<br />
+            &nbsp "FavoriteMovies": [<br />
+            &nbsp &nbsp "615e8355db5a5fbf42fc4eb8",<br />
+            &nbsp ]<br />
+          }
+        </td>
       </tr>
       <tr>
-        <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
-        <td>/users/:id</td>
+        <td>Allow existing users to de-register</td>
+        <td>/users/:Username</td>
         <td>DELETE</td>
-        <td>NONE</td>
-        <td>A text message indicating that the user has deregistered from myFlix</td>
+        <td>/users/newuser</td>
+        <td>newuser was deleted.</td>
       </tr>
     </tbody>
   </table>
