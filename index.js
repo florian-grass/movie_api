@@ -24,6 +24,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// links to HTTP authentication file
+let auth = require ('./auth')(app); // The app argument ensures that Express will be available in the auth.js file
+
+const passport = require('passport');
+require('./passport');
 
 // Logging middleware
 app.use(morgan('common'));
@@ -167,6 +172,7 @@ let users = [
   }
 ];
 
+
 let genres = [
   {
     genreId: "1",
@@ -189,7 +195,7 @@ app.get('/', (req, res) => {
 
 
 // OK -GET list of displayed (all) movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(201).json(movies);
