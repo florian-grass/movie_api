@@ -18,5 +18,5 @@ directors information
 
 
 ###Author
-GitHub: @florian-grass
+GitHub: [@florian-grass](https://github.com/florian-grass)
  
