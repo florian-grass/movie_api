@@ -1,22 +1,22 @@
-
+// importing required models
 const express = require('express');
 // Middleware
 const morgan = require('morgan');
-
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
 
+// calling express
 const app = express();
 
+// importing models from models.js
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true, useUnifiedTopology: true });
+// connecting database 
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // activating body parser
 app.use(bodyParser.json());
