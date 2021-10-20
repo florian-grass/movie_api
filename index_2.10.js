@@ -273,7 +273,8 @@ console.log(err.stack);
 res.status(500).send('Something broke mate!');
 });
 
-app.listen(8080, () => {
-console.log('Your app is listening to port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+    console.log('Listening on Port ' + port);
 });
   
