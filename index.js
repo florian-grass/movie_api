@@ -24,11 +24,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// links to HTTP authentication file
-let auth = require ('./auth')(app); // The app argument ensures that Express will be available in the auth.js file
-
 const passport = require('passport');
 require('./passport');
+
+// links to HTTP authentication file
+let auth = require ('./auth')(app); // The app argument ensures that Express will be available in the auth.js file
 
 // Logging middleware
 app.use(morgan('common'));
