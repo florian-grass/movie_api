@@ -32,14 +32,14 @@ let userSchema = mongoose.Schema({
 });
 
 // // this function is hashing the submitted password
-// userSchema.statics.hashPassword = (password) => {
-//     return bcrypt.hashSync(password, 10);
-// };
+userSchema.statics.hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+};
 
 // // compares the submitted hashed password with the hashed password stored in my database
-// userSchema.methods.validatePassword = function(password) {
-//     return bcrypt.compareSync(password, this.Password);
-// }
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.Password);
+}
 
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
