@@ -98,7 +98,20 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 
-// GET JSON genre info when looking for a specific genre
+// GET list of all genres
+app.get('/genre', (req, res) => {
+    Genre.find()
+    .then(genre => {
+        res.status(201).json(genre);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+
+// GET genre info for a specific genre
 app.get('/movies/genre/:Name', (req, res) => { 
   Genres.findOne({ Name: req.params.Name})
   .then((genre) => {
@@ -111,18 +124,31 @@ app.get('/movies/genre/:Name', (req, res) => {
 });
 
 
+// GET list of all directors
+app.get('/directors', (req, res) => {
+    Movies.find()
+    .then(director => {
+        res.status(201).json(movies);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+
 // GET info on Director when looking for a specific Director
 app.get('/director/:Name', (req, res) => { 
-  Directors.findOne({ Name: req.params.Name})
+  Movies.findOne({ 'Director.Name': req.params.Name})
   .then((director) => {
-    res.json(director);
+    res.json(director.Director);
   })
   .catch((err) => {
     console.error(err);
     res.status(500).send('Error ' + err);
   });
 });
-
+ 
 
 // GET request for all users
 app.get('/users', (req, res) => {
