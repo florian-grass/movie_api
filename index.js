@@ -56,7 +56,7 @@ app.use(bodyParser.urlencoded({
 
 const passport = require('passport');
 require('./passport');
-app.use(passport.initialize())
+app.use(passport.initialize());
 
 
 // links to HTTP authentication file
