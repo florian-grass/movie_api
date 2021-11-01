@@ -37,7 +37,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 
-// connecting database 
+// connecting database
 // mongoose.connect('mongodb://localhost:27017/myFlixDB',
 //     { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -82,14 +82,25 @@ app.get('/', (req, res) => {
 
 
 // GET list of displayed (all) movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+// app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+//     Movies.find()
+//         .then((movies) => {
+//             res.status(201).json(movies);
+//         })
+//         .catch((err) => {
+//             console.error(error);
+//             res.status(500).send('Error ' + err);
+//         });
+// });
+
+app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/function (req, res) {
     Movies.find()
-        .then((movies) => {
+        .then(function (movies) {
             res.status(201).json(movies);
         })
-        .catch((err) => {
+        .catch(function(err) {
             console.error(error);
-            res.status(500).send('Error ' + err);
+            res.status(500).send('Error: ' + err);
         });
 });
 
@@ -261,7 +272,7 @@ app.post('/users',
 
 
 
-// DELETE REQUESTS     //////////////////////////////// 
+// DELETE REQUESTS     ////////////////////////////////
 // ====================================================
 
 // DELETE a movie from the users favorite Movies list by ID ??????????????????????????????
