@@ -94,7 +94,7 @@ app.get('/', (req, res) => {
 
 // Temporarily disable passport authentification
 // restore the authentication middleware once you’ve given users the ability to authenticate themselves with a login form when using the client application
-app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/function (req, res) {
+app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
     Movies.find()
         .then(function (movies) {
             res.status(201).json(movies);
