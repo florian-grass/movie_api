@@ -92,19 +92,6 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
         });
 });
 
-// Temporarily disable passport authentification
-// restore the authentication middleware once you’ve given users the ability to authenticate themselves with a login form when using the client application
-// app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
-//     Movies.find()
-//         .then(function (movies) {
-//             res.status(201).json(movies);
-//         })
-//         .catch(function(err) {
-//             console.error(error);
-//             res.status(500).send('Error: ' + err);
-//         });
-// });
-
 
 // Get data about a single movie by title/name
 // URL: /movies/The%20Gentlemen
@@ -160,7 +147,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }),  (req, r
 
 
 // GET info on Director when looking for a specific Director
-app.get('/director/:Name', passport.authenticate('jwt', { session: false }),  (req, res) => {
+app.get('/directors/:Name', passport.authenticate('jwt', { session: false }),  (req, res) => {
     Directors.findOne({ 'Director.Name': req.params.Name })
         .then((director) => {
             res.json(director.Director);
