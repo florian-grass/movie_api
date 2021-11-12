@@ -206,7 +206,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 
 
 // POST new user registration
-app.post('/users',
+app.post('/register',
     // Validation logic here for request
     // you can either use a chain of methods like .not().isEmpty()
     // which means "opposite of isEmpty" in plain English "is not empty"
