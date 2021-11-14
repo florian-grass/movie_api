@@ -14,19 +14,23 @@ const { check, validationResult } = require('express-validator');
 const app = express();
 
 app.use(cors());
-let allowedOrigins = ['http://loalhost:8080', 'http://loalhost:1234'];
+// let allowedOrigins = ['http://loalhost:8080', 'http://loalhost:1234'];
 
 app.use(cors({
-    origin: (origin, callback) => {
-        if(!origin) return callback(null, true);
-        // if a specific origin isn't found on the list of allowed origins
-        if(allowedOrigins.indexOf(origin) === -1){
-            let message = "The CORS policy for this application doesn't aloow access from origin " + origin;
-            return callback (newError(message), false);
-        }
-        return callback(null, true);
-    }
-}))
+  origin: '*'
+}));
+
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if(!origin) return callback(null, true);
+//         // if a specific origin isn't found on the list of allowed origins
+//         if(allowedOrigins.indexOf(origin) === -1){
+//             let message = "The CORS policy for this application doesn't aloow access from origin " + origin;
+//             return callback (newError(message), false);
+//         }
+//         return callback(null, true);
+//     }
+// }))
 
 // importing models from models.js
 const mongoose = require('mongoose');
